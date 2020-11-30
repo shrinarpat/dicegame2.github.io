@@ -1,5 +1,13 @@
 var score,roundScore,activePlayer,dice,gamePlaying;
-var lastDice,secondLastDice = 0, winnerScore;
+var diceSound = new Audio();
+diceSound.src = "soundeffect/DICE.wav";
+var holdAudioEffect = new Audio();
+holdAudioEffect.src = "soundeffect/hold1.wav"; 
+
+
+
+var winnerSound = new Audio();
+winnerSound.src = "soundeffect/applause1.wav";
 
 function init(){
     score = [0,0];
@@ -9,13 +17,11 @@ function init(){
     gamePlaying = true;
     document.querySelector('#player-' + activePlayer).classList.add('active');
 
-   /* alert(" Rule: 1. first Player with 100 Score will be the Winner, 2. if dice roll 1 then your current score is reduce to 0 and the control goes to next player, 3. using hold you can add your current score to main score and transfer the control to the next player");*/
+  /*  alert(" Rule: 1. first Player with 100 Score will be the Winner, 2. if dice roll 1 then your current score is reduce to 0 and the control goes to next player, 3. using hold you can add your current score to main score and transfer the control to the next player");*/
     
 }
 
 init();
-
-
 
 function toggleActiveClass(){
     document.getElementById('player-0').classList.toggle('active');
@@ -24,36 +30,18 @@ function toggleActiveClass(){
 
 
 document.getElementById('roll-dice').addEventListener('click',function(){
-
-    document.getElementById('winning-input').style.display = 'none';
-   
     if(gamePlaying){
-
-        dice = Math.floor(Math.random()*6)+1;
-        
-       document.getElementById('dice-image').src = 'image\\dice-' + dice + '.png';
-
-        if(dice == 6 && lastDice == 6 && secondLastDice == 6){
-
-        score[activePlayer] = 0;
-        document.getElementById('global-score-' + activePlayer).textContent = score[activePlayer];
-
-        roundScore = 0;
-        document.getElementById('current-score-' + activePlayer).textContent = roundScore;  
-
-        activePlayer == 0?activePlayer = 1:activePlayer = 0;
-
-        toggleActiveClass();
-        }
-
-    
-
-     else if(dice !== 1){
+    dice = Math.floor(Math.random()*6)+1;
+    document.getElementById('dice-image').src = 'image\\dice-' + dice + '.png';
+    if(dice !== 1){
+        diceSound.src = "soundeffect/DICE.wav";
+        diceSound.play();
         roundScore += dice;
         document.getElementById('current-score-' + activePlayer).textContent = roundScore;  
          
-    } else {
-    
+    }else{
+        diceSound.src = "soundeffect/aww.mp3";
+        diceSound.play();
         roundScore = 0;
         document.getElementById('current-score-' + activePlayer).textContent = roundScore; 
         activePlayer == 0?activePlayer = 1:activePlayer = 0;
@@ -61,30 +49,26 @@ document.getElementById('roll-dice').addEventListener('click',function(){
         toggleActiveClass();
     }
     }
-    document.getElementById('id01').textContent = dice + ',' + secondLastDice + ',' + lastDice;
-    lastDice = secondLastDice;
-   
-    secondLastDice = dice;
-   
-    
 });
 
 
 document.getElementById('hold').addEventListener('click',function(){
+    holdAudioEffect.play();
+    
     score[activePlayer] += roundScore;
+    if(score[activePlayer] >= 100){
 
-    winnerScore = parseInt(document.getElementById('winning-score').value);
+        diceSound.src = "";
 
-    if(winnerScore){}else{winnerScore = 40;}
+        winnerSound.play();
 
-    if(score[activePlayer] >= winnerScore){
         document.getElementById('global-score-' + activePlayer).textContent = score[activePlayer];
 
         document.querySelector('#player-0').classList.remove('active');
         document.querySelector('#player-1').classList.remove('active');
         document.querySelector('#player-' + activePlayer).classList.add('winner');
 
-        document.getElementById('player-'+activePlayer).innerHTML = '<i>Winner!! <span class="glyphicon glyphicon-hand-up"></span></i>';
+        document.getElementById('player-'+activePlayer).innerHTML = '<i>Winner!! <span class="glyphicon glyphicon-hand-down"></span></i>';
 
         document.getElementById('dice-image').src = 'image\\default-dice.png';
         roundScore = 0;

@@ -123,35 +123,18 @@
         padding: 10px;
     }
 
- #winning-input {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items:baseline;
-  align-content: center;
- }
-
- #winning-score{
-     margin: 10px;
-     height: 30px;
-     border-radius: 10px;
-     padding: 5px;
-     font-style: bold;
- }
+    a{
+        color:white;
+        text-decoration: none;
+        font-size: 1em;
+        font-weight: bold;
+    }
 
  </style>
  
 </head>
 <body>
-  
-        <div id="winning-input" class="jumbotron">
-               <h2> Enter winning score & Start playing Game : </h2> 
-                <input type="number" id="winning-score">
-            </div>
-
     <div id='container'>
-
-           
   
 <div id="player-0-container" class="player-container">
 <div id="player-0" name='player-name-0' class="  player-name"><b><span class="glyphicon glyphicon-hand-right"></span> Player-1</b></div>
@@ -164,7 +147,11 @@
 </div>
 </div>
 <div id="functional-part" class="player-container">
+
     <button type="button" class="btn btn-danger" id="new-game">  <span class="glyphicon glyphicon-plus-sign" ></span>    <b>New-Game</b></button>
+
+    <button type="button" class="btn btn-danger" id="choose-player">  <span class="glyphicon glyphicon-refresh"></span>   <a href="/dice game/root.html">Choose Player</a> </button>
+
     <div>
     <img src="image\default-dice.png" alt="dice image" id="dice-image">
     </div>
@@ -185,6 +172,9 @@
     </div>  <!--end of container div tag -->
 <p id="id01"></p>
     
+<button onclick="diceSound.play()">click</button>
+
 <script src="diceapp.js"></script>
+
 </body>
 </html>
